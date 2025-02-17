@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brani della Playlist</title>
+</head>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #121212;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    .container {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #1DB954;
+    }
+
+    table {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+        background-color: #181818;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    thead {
+        background-color: #1DB954;
+    }
+
+    thead th {
+        padding: 15px;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: black;
+    }
+
+    tbody td {
+        padding: 12px;
+        border-bottom: 1px solid #282828;
+    }
+
+    tbody tr:hover {
+        background-color: #282828;
+    }
+
+    a {
+        color: #1DB954;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    img.track-img {
+        width: 120px;
+        border-radius: 5px;
+    }
+
+    .no-tracks, .no-image {
+        color: #777;
+        font-style: italic;
+    }
+
+</style>
+
+<body>
+    <div class="container">
+        <h1>Brani della Playlist </h1>
+
+        {% if brani %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome Brano</th>
+                    <th>Album</th>
+                    <th>Artista</th>
+                    <th>Copertina</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for brano in brani %}
+                <tr>
+                    <td>{{ brano['track']['name'] }}</td>
+                    <td>{{ brano['track']['album']['name'] }}</td>
+                    <td>
+                        {% for artist in brano['track']['artists'] %}
+                        {{ artist['name'] }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if brano['track']['album']['images'] %}
+                        <img class="track-img" src="{{ brano['track']['album']['images'][0]['url'] }}" alt="Copertina album">
+                        {% else %}
+                        <span class="no-image">Nessuna immagine</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-tracks">Non ci sono brani in questa playlist.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>
