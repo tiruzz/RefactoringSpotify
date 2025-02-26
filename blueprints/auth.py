@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, request, url_for, session
 from services.spotify_oauth import sp_oauth, get_spotify_object
 auth_bp = Blueprint('auth', __name__) 
 
-@auth_bp.route('/')
+@auth_bp.route('/login')
 def login():
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)

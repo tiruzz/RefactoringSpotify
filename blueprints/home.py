@@ -16,6 +16,11 @@ def home():
     
     return render_template('home.html', user_info=user_info, playlists=playlists_info) 
 
+@home_bp.route('/')
+def home_page():
+    
+    return render_template('home-page.html')
+
 @home_bp.route('/playlist/<playlist_id>')
 def playlist_details(playlist_id):
     token_info = session.get('token_info', None)
