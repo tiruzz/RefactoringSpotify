@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dettagli Artista</title>
+    <link rel="stylesheet" href="../static/css/artista.css"> <!-- Aggiungi il tuo CSS personalizzato -->
+</head>
+<body>
+    <div class="artist-details">
+        <h1>{{ nome }}</h1>
+        
+        <div class="artist-info">
+            {% if immagine %}
+                <img src="{{ immagine }}" alt="{{ nome }} immagine" class="artist-image">
+            {% else %}
+                <img src="default-image.jpg" alt="Immagine non disponibile" class="artist-image">
+            {% endif %}
+            
+            <div class="artist-info-text">
+                <p><strong>Generi:</strong> {{ generi }}</p>
+                <p><strong>Popolarità:</strong> {{ popolarita }}</p>
+                <p><strong>Followers:</strong> {{ followers }}</p>
+                <p><strong><a href="{{ spotify_url }}" target="_blank">Visita su Spotify</a></strong></p>
+            </div>
+        </div>
+
+        <div class="top-tracks">
+            <h2>Brani più popolari</h2>
+            {% if brani %}
+                <ul>
+                    {% for brano in brani %}
+                        <li>
+                            <a href="{{ brano.spotify_url }}" target="_blank">{{ brano.nome }}</a>
+                            {% if brano.preview_url %}
+                                <audio controls>
+                                    <source src="{{ brano.preview_url }}" type="audio/mpeg">
+                                    Il tuo browser non supporta il tag audio.
+                                </audio>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Nessun brano trovato.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

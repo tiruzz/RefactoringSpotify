@@ -99,7 +99,7 @@
                     <td>{{ brano['track']['album']['name'] }}</td>
                     <td>
                         {% for artist in brano['track']['artists'] %}
-                        <a href=" {{ artist['href']}} ">{{ artist['name'] }}</a> {% if not loop.last %}, {% endif %}
+                        <a href="/artist/{{ artist['id'] }} ">{{ artist['name'] }}</a> {% if not loop.last %}, {% endif %}
                         {% endfor %}
                     </td>
                     <td>

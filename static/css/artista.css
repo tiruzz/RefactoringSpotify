@@ -1,0 +1,102 @@
+/* Impostazioni generali */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #121212;
+    color: #B3B3B3;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenitore principale */
+.artist-details {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: white;
+}
+
+/* Header dell'artista */
+h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: white;
+}
+
+/* Informazioni sull'artista */
+.artist-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.artist-image {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 30px;
+}
+
+.artist-info-text {
+    max-width: 600px;
+}
+
+.artist-info-text p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.artist-info-text a {
+    color: #1DB954;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.artist-info-text a:hover {
+    text-decoration: underline;
+}
+
+/* Brani più popolari */
+.top-tracks h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.top-tracks ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.top-tracks li {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
+}
+
+.top-tracks li a {
+    color: #B3B3B3;
+    font-size: 1.2em;
+    text-decoration: none;
+    flex: 1;
+}
+
+.top-tracks li a:hover {
+    color: #1DB954;
+}
+
+audio {
+    margin-left: 20px;
+    background-color: #121212;
+    border: none;
+}
+
+/* Stile per i messaggi di errore */
+.error-message {
+    color: #ff5555;
+    font-size: 1.5em;
+    text-align: center;
+    margin-top: 20px;
+}
