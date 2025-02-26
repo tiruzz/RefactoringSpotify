@@ -21,8 +21,7 @@ def home():
 
 @home_bp.route('/')
 def home_page():
-    
-    return render_template('home-page.html')
+    return render_template('home-page.html') 
 
 @home_bp.route('/playlist/<playlist_id>')
 def playlist_details(playlist_id):

@@ -67,7 +67,20 @@
             border-radius: 10px;
         }
     </style>
+    {% block content %}
     <body>
-        <h1>Benvenuto, coglione!</h1>
+        
+    <div class="main-content">  
+        </div><h1>Benvenuto su spotify</h1>
+        <p>versione gratis.</p> 
+        <nav>
+            {% if session.token_info %}
+                <a href="{{url_for('auth.logout')}}">Logout</a>
+            {% else %}
+                <a href="{{url_for('auth.login')}}">Login</a>
+            {% endif %}
+        </nav>
+        
     </body>
+    {% endblock %}
 </html>

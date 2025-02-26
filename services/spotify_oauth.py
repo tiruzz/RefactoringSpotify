@@ -15,3 +15,9 @@ show_dialog=True
 
 def get_spotify_object(token_info):
     return spotipy.Spotify( auth=token_info['access_token'])
+
+def get_spotify_client():
+    token_info = session.get("token_info") 
+    if token_info:
+        return spotipy.Spotify(auth=token_info.get("access_token"))
+    return spotipy.Spotify(auth=None)
