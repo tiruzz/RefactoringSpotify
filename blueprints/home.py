@@ -4,7 +4,7 @@ import requests
 from services.spotify_oauth import get_spotify_object, sp_oauth, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 from spotipy.oauth2 import SpotifyClientCredentials
 
-home_bp = Blueprint('home', __name__) 
+home_bp = Blueprint('home', __name__)
 
 @home_bp.route('/home')
 def home():
@@ -17,11 +17,10 @@ def home():
     playlists = sp.current_user_playlists() 
     playlists_info = playlists['items'] 
     
-    return render_template('home.html', user_info=user_info, playlists=playlists_info) 
+    return render_template('home.html', user_info=user_info, playlists=playlists_info)
 
 @home_bp.route('/')
 def home_page():
-    
     return render_template('home-page.html')
 
 @home_bp.route('/playlist/<playlist_id>')
@@ -40,8 +39,6 @@ def playlist_details(playlist_id):
         
         # Recupera la playlist completa
         playlist_data = sp.playlist(playlist_id)
-        
-        # Estrai il nome della playlist
         playlist_name = playlist_data.get('name', 'Nome non disponibile')
 
         brani = sp.playlist_items(playlist_id)
@@ -51,7 +48,6 @@ def playlist_details(playlist_id):
         return "Playlist non trovata o accesso negato", 404
     
     return render_template('base.html', brani=brani_specifici, nome=playlist_name)
-
 
 # Funzione per ottenere il token di accesso senza autenticazione utente
 def get_spotify_token():
@@ -100,3 +96,58 @@ def artist_details(artist_id):
     } for track in top_tracks]
     
     return render_template('artista.html', nome=nome, immagine=immagine, generi=generi, popolarita=popolarita, followers=followers, spotify_url=spotify_url, brani=brani)
+
+# Aggiungi una nuova route per la ricerca
+@home_bp.route('/search')
+def search_results():
+    query = request.args.get('query', '')
+    
+    if query:
+        # Se l'utente è loggato, usa il suo token, altrimenti usa il client Spotify
+        token_info = session.get('token_info', None)
+        if token_info:
+            sp = get_spotify_object(token_info)  # Oggetto Spotify con token utente
+        else:
+            # Usa le credenziali client se non autenticato
+            sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
+                client_id=SPOTIFY_CLIENT_ID,
+                client_secret=SPOTIFY_CLIENT_SECRET
+            ))
+        
+        # Esegui la ricerca per artisti e playlist
+        search_results = sp.search(q=query, type='artist,playlist', limit=10)
+        
+        # Gestisci i risultati per artisti e playlist separatamente
+        artists = search_results.get('artists', {}).get('items', [])
+        playlists = search_results.get('playlists', {}).get('items', [])
+        
+        # Aggiungi la logica per controllare che 'external_urls' esista
+        for artist in artists:
+            if artist:
+                external_urls = artist.get('external_urls', None)
+                if external_urls and isinstance(external_urls, dict):
+                    artist['external_urls'] = external_urls.get('spotify', '#')
+                else:
+                    artist['external_urls'] = '#'
+                artist['images'] = artist.get('images', [{}])[0].get('url', 'https://via.placeholder.com/150')
+                artist['name'] = artist.get('name', 'Nome non disponibile')
+
+        for playlist in playlists:
+            if playlist:
+                external_urls = playlist.get('external_urls', None)
+                if external_urls and isinstance(external_urls, dict):
+                    playlist['external_urls'] = external_urls.get('spotify', '#')
+                else:
+                    playlist['external_urls'] = '#'
+                playlist['images'] = playlist.get('images', [{}])[0].get('url', 'https://via.placeholder.com/150')
+                playlist['name'] = playlist.get('name', 'Nome non disponibile')
+
+        # Passa i risultati ai template
+        return render_template('search_results.html', artists=artists, playlists=playlists)
+    
+    # Se la query è vuota, ritorna alla home
+    return redirect(url_for('home.home'))
+
+
+
+

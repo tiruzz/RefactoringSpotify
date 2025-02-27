@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .search-result {
+            display: inline-block;
+            margin: 20px;
+            text-align: left;
+            background-color: #181818;
+            padding: 15px;
+            border-radius: 8px;
+            width: 200px;
+        }
+
+        .search-result img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .search-result a {
+            color: #1DB954;
+            text-decoration: none;
+        }
+
+        .search-result a:hover {
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            background-color: #1DB954;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        .back-btn:hover {
+            background-color: #1ed760;
+        }
+
+        .no-results {
+            color: #888888;
+        }
+
+        header nav a {
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <main class="content">
+        <h1>Risultato della tua ricerca:</h1>
+
+        <!-- Back button -->
+        <button class="back-btn" onclick="window.history.back()">Indietro</button>
+
+        <div class="results">
+            <h1>Artisti:</h1>
+            {% if artists %}
+                {% for artist in artists %}
+                    <div class="search-result">
+                        <img src="{{ artist.images }}" alt="{{ artist.name }}">
+                        <a href="{{ artist.external_urls }}" target="_blank">
+                            {{ artist.name }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-results">No artists found</p>
+            {% endif %}
+            <h1>playlist:</h1>
+            {% if playlists %}
+                {% for playlist in playlists %}
+                    <div class="search-result">
+                        <img src="{{ playlist.images }}" alt="{{ playlist.name }}">
+                        <a href="{{ playlist.external_urls }}" target="_blank">
+                            {{ playlist.name }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-results">No playlists found</p>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
