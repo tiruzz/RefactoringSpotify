@@ -16,14 +16,30 @@
         text-align: center;
     }
 
+     /* Stile per l'h1 */
+     h1 {
+        font-size: 36px;
+        font-weight: bold;
+        color: #1DB954; /* Verde Spotify per il titolo */
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Stile per la parte iniziale del titolo */
+    h1 p {
+        font-size: 36px;
+        font-weight: normal;
+        margin-left: 10px;
+        color: #FFFFFF; /* Bianco per il nome della playlist per contrasto */
+        text-transform: capitalize; /* Prima lettera maiuscola */
+    }
+
     .container {
         width: 80%;
         margin: auto;
         padding: 20px;
-    }
-
-    h1 {
-        color: #1DB954;
     }
 
     table {
@@ -80,7 +96,7 @@
 
 <body>
     <div class="container">
-        <h1>Brani della Playlist </h1>
+        <h1>Brani della Playlist <p>{{ nome }}</p></h1>
 
         {% if brani %}
         <table>

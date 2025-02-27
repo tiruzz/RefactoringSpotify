@@ -21,7 +21,8 @@ def home():
 
 @home_bp.route('/')
 def home_page():
-    return render_template('home-page.html') 
+    
+    return render_template('home-page.html')
 
 @home_bp.route('/playlist/<playlist_id>')
 def playlist_details(playlist_id):
@@ -37,13 +38,19 @@ def playlist_details(playlist_id):
             )
             sp = spotipy.Spotify(auth_manager=client_credentials_manager)
         
+        # Recupera la playlist completa
+        playlist_data = sp.playlist(playlist_id)
+        
+        # Estrai il nome della playlist
+        playlist_name = playlist_data.get('name', 'Nome non disponibile')
+
         brani = sp.playlist_items(playlist_id)
         brani_specifici = brani.get('items', []) if brani and isinstance(brani, dict) else []
     except spotipy.exceptions.SpotifyException as e:
         print(f"Errore Spotify: {e}")
         return "Playlist non trovata o accesso negato", 404
     
-    return render_template('base.html', brani=brani_specifici)
+    return render_template('base.html', brani=brani_specifici, nome=playlist_name)
 
 
 # Funzione per ottenere il token di accesso senza autenticazione utente
