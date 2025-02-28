@@ -160,7 +160,7 @@
     <header>
         <nav>
             <a href="{{ url_for('home.home') }}">Home</a>
-            <a href="{{ url_for('home.search_results') }}">Search</a>
+            <a href="{{ url_for('home.search') }}">Search</a>
             <a href="{{ url_for('auth.login') }}">Login</a>
         </nav>
     </header>
@@ -171,29 +171,7 @@
             <button onclick="search()">Search</button>
         </div>
 
-        <div class="results">
-            {% if artists %}
-                {% for artist in artists %}
-                    <div class="search-result">
-                        <img src="{{ artist.images[0].url if artist.images else 'https://via.placeholder.com/150' }}" alt="{{ artist.name }}">
-                        <a href="{{ artist.external_urls.spotify }}" target="_blank">{{ artist.name }}</a>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p class="no-results">No artists found</p>
-            {% endif %}
-
-            {% if playlists %}
-                {% for playlist in playlists %}
-                    <div class="search-result">
-                        <img src="{{ playlist.images[0].url if playlist.images else 'https://via.placeholder.com/150' }}" alt="{{ playlist.name }}">
-                        <a href="{{ playlist.external_urls.spotify }}" target="_blank">{{ playlist.name }}</a>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p class="no-results">No playlists found</p>
-            {% endif %}
-        </div>
+        
     </main>
 
     <script>

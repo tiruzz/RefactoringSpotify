@@ -66,6 +66,50 @@
         img {
             border-radius: 10px;
         }
+        .navbar {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        background-color: #1DB954;
+    }
+    .navbar form {
+        display: flex;
+        gap: 10px;
+    }
+    .search-results {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .search-results ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+    .search-results li {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #121212;
+        padding: 15px;
+        border-radius: 10px;
+        width: 180px;
+    }
+    .search-results img {
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        object-fit: cover;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    .search-results a {
+        text-decoration: none;
+        font-weight: bold;
+        color: #1DB954;
+        margin-top: 10px;
+    }
     </style>
     {% block content %}
     <body>
@@ -87,6 +131,21 @@
                 <button type="submit">Cerca</button>
             </form>
         </div>
+        
+        {% if results %}
+            <div class="search-results">
+                <ul>
+                    {% for result in results %}
+                        <li>
+                            <img src="{{ result.image_url }}" alt="{{ result.name }}">
+                            <a href="{{ result.spotify_url }}" target="_blank">{{ result.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p style="text-align: center; color: white;">Nessun risultato trovato.</p>
+        {% endif %}
         
     </body>
     {% endblock %}

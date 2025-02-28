@@ -81,17 +81,13 @@ def get_artist_top_tracks(artist_id):
 def search():
     query = request.args.get('query')
     if not query:
-        return redirect(url_for('home-page.html'))
+        return redirect(url_for('home.search'))  # Redirect to search page if query is empty
     
-    token_info = session.get('token_info')
-    if token_info:
-        sp = get_spotify_object(token_info)
-    else:
-        client_credentials_manager = SpotifyClientCredentials(
-            client_id=SPOTIFY_CLIENT_ID,
-            client_secret=SPOTIFY_CLIENT_SECRET
-        )
-        sp = spotipy.Spotify(auth_manager=client_credentials_manager)
+    client_credentials_manager = SpotifyClientCredentials(
+        client_id=SPOTIFY_CLIENT_ID,
+        client_secret=SPOTIFY_CLIENT_SECRET
+    )
+    sp = spotipy.Spotify(auth_manager=client_credentials_manager)
     
     search_results = sp.search(q=query, type='artist,track', limit=10)
     
@@ -99,13 +95,15 @@ def search():
     for artist in search_results.get('artists', {}).get('items', []):
         results.append({
             'name': artist['name'],
-            'spotify_url': artist['external_urls']['spotify']
+            'spotify_url': artist['external_urls']['spotify'],
+            'image_url': artist['images'][0]['url'] if artist['images'] else 'https://via.placeholder.com/100'
         })
     
     for track in search_results.get('tracks', {}).get('items', []):
         results.append({
             'name': track['name'],
-            'spotify_url': track['external_urls']['spotify']
+            'spotify_url': track['external_urls']['spotify'],
+            'image_url': track['album']['images'][0]['url'] if track['album']['images'] else 'https://via.placeholder.com/100'
         })
     
     return render_template('home-page.html', results=results)
