@@ -25,4 +25,4 @@ def callback():
 @auth_bp.route('/logout')
 def logout():
     session.clear() 
-    return render_template('home-page.html')
+    return redirect(url_for('home.home'))

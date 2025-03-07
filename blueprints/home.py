@@ -21,6 +21,13 @@ def home():
 
 @home_bp.route('/')
 def home_page():
+    token_info = session.get('token_info', None)
+    if token_info:
+        sp = get_spotify_object(token_info)
+        user_info = sp.current_user()
+        playlists = sp.current_user_playlists()
+        playlists_info = playlists['items']
+        return render_template('home.html', user_info=user_info, playlists=playlists_info)
     
     return render_template('home-page.html')
 

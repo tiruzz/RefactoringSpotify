@@ -3,7 +3,7 @@ from spotipy.oauth2 import SpotifyOAuth
 
 SPOTIFY_CLIENT_ID = "3cb0c68445c2438e9facc310b7b0e827"
 SPOTIFY_CLIENT_SECRET = "10564376edbe42dda53de2a6be0024a0"
-SPOTIFY_REDIRECT_URI = "https://5000-tiruzz-refactoringspoti-9ddchd6r1dt.ws-eu118.gitpod.io/callback"
+SPOTIFY_REDIRECT_URI = "https://5000-tiruzz-refactoringspoti-ib0jgtm2oow.ws-eu118.gitpod.io/callback"
 
 sp_oauth = SpotifyOAuth(
 client_id=SPOTIFY_CLIENT_ID,
