@@ -122,7 +122,6 @@
             {% if session.token_info %}
                 <a href="{{url_for('auth.logout')}}">Logout</a>
             {% else %}
-                <a href="{{url_for('auth.home')}}">home</a>
                 <a href="{{url_for('auth.login')}}">Login</a>
             {% endif %}
         </nav>
