@@ -100,3 +100,30 @@ audio {
     text-align: center;
     margin-top: 20px;
 }
+header {
+    background-color: #181818;
+    width: 100%;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header nav a {
+    color: #1DB954;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 0 15px;
+    padding: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header nav a:hover {
+    background-color: #1DB954;
+    color: #121212;
+    border-radius: 5px;
+}
