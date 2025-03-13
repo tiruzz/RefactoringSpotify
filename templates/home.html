@@ -200,6 +200,28 @@
                 <p>Non hai playlist disponibili.</p>
             {% endif %}
 
+            <div class="navbar">
+                <form action="{{ url_for('home.search') }}" method="GET">
+                    <input type="text" name="query" placeholder="Cerca artista o brano" required>
+                    <button type="submit">Cerca</button>
+                </form>
+            </div>
+            
+            {% if results %}
+                <div class="search-results">
+                    <ul>
+                        {% for result in results %}
+                            <li>
+                                <img src="{{ result.image_url }}" alt="{{ result.name }}">
+                                <a href="{{ result.spotify_url }}" target="_blank">{{ result.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p style="text-align: center; color: white;">Nessun risultato trovato.</p>
+            {% endif %}
+
             <script>
                 function search() {
                     const query = document.getElementById("searchQuery").value;

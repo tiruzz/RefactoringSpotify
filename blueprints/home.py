@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, request, url_for, session, render_template
-from services.home import get_user_info, get_playlist_details, search_spotify, get_artist_details, get_artist_top_tracks
+from services.spotify_api import get_user_info, get_playlist_details, search_spotify, get_artist_details, get_artist_top_tracks
 
 home_bp = Blueprint('home', __name__)
 
