@@ -1,0 +1,15 @@
+
+<div class="inizio">
+<h1>Login</h1>
+<form method="POST">
+    <label>Username:</label><br>
+    <input type="text" name="username" required><br>
+    <label>Password:</label><br>
+    <input type="password" name="password" required><br>
+    <button type="submit">Accedi</button>
+    {% if error %}
+    <p class="errore" style="color: red;">{{ error }}</p>
+    {% endif %}
+</form>
+<a href="{{ url_for('register') }}">Non hai un account? Registrati qui.</a>
+</div>
