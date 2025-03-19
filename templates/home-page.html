@@ -111,43 +111,38 @@
         margin-top: 10px;
     }
     </style>
-    {% block content %}
     <body>
-        
-    <div class="main-content">  
-        <h1>Benvenuto su spotify</h1>
-        <p>versione gratis.</p>
-        
-        <nav>
-            {% if session.token_info %}
-                <a href="{{url_for('auth.logout')}}">Logout</a>
-            {% else %}
-                <a href="{{url_for('auth.login')}}">Login</a>
-            {% endif %}
-        </nav>
-
-        <div class="navbar">
-            <form action="{{ url_for('home.search') }}" method="GET">
-                <input type="text" name="query" placeholder="Cerca artista o brano" required>
-                <button type="submit">Cerca</button>
-            </form>
-        </div>
-        
-        {% if results %}
-            <div class="search-results">
-                <ul>
-                    {% for result in results %}
-                        <li>
-                            <img src="{{ result.image_url }}" alt="{{ result.name }}">
-                            <a href="{{ result.spotify_url }}" target="_blank">{{ result.name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
+        {% block content %}
+        <div class="main-content">  
+            <h1>Benvenuto su spotify</h1>
+            <p>versione gratis.</p>
+            <nav>
+                <a href="{{ url_for('account.accesso') }}">Login</a>
+                <a href="{{ url_for('home.search') }}">Search</a>
+            </nav>
+    
+            <div class="navbar">
+                <form action="{{ url_for('home.search') }}" method="GET">
+                    <input type="text" name="query" placeholder="Cerca artista o brano" required>
+                    <button type="submit">Cerca</button>
+                </form>
             </div>
-        {% else %}
-            <p style="text-align: center; color: white;">Nessun risultato trovato.</p>
-        {% endif %}
-        
+            
+            {% if results %}
+                <div class="search-results">
+                    <ul>
+                        {% for result in results %}
+                            <li>
+                                <img src="{{ result.image_url }}" alt="{{ result.name }}">
+                                <a href="{{ result.spotify_url }}" target="_blank">{{ result.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p style="text-align: center; color: white;">Nessun risultato trovato.</p>
+            {% endif %}
+        </div>
+        {% endblock %}
     </body>
-    {% endblock %}
-</html>
+    </html>

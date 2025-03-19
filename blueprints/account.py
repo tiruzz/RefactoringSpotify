@@ -1,8 +1,8 @@
 from flask import Blueprint, redirect, request, url_for, session, render_template
 
-accounte_bp = Blueprint('account', __name__)
+account_bp = Blueprint('account', __name__)
 
-@accounte_bp.route('/register', methods=['GET', 'POST'])
+@account_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -12,11 +12,11 @@ def register():
         new_user = User(username=username, password=password)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('login'))
+        return render_template('login.html')
     return render_template('register.html', error=None)
 
-@accounte_bp.route('/', methods=['GET', 'POST'])
-def login():
+@account_bp.route('/accesso', methods=['GET', 'POST'])
+def accesso():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
