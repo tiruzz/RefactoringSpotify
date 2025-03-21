@@ -8,12 +8,12 @@ def register():
         username = request.form['username']
         password = request.form['password']
         if User.query.filter_by(username=username).first():
-            return render_template('register.html', error="Questo username è già in uso.")
+            return render_template('registrazione.html', error="Questo username è già in uso.")
         new_user = User(username=username, password=password)
         db.session.add(new_user)
         db.session.commit()
         return render_template('login.html')
-    return render_template('register.html', error=None)
+    return render_template('registrazione.html', error=None)
 
 @account_bp.route('/accesso', methods=['GET', 'POST'])
 def accesso():
