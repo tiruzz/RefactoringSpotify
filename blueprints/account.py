@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, request, url_for, session, render_template
-
+from models import User, db
+from flask_login import login_user
 account_bp = Blueprint('account', __name__)
 
 @account_bp.route('/register', methods=['GET', 'POST'])
@@ -23,6 +24,6 @@ def accesso():
         user = User.query.filter_by(username=username, password=password).first()
         if user:
             login_user(user)
-            return redirect(url_for('home'))
+            return redirect(url_for('home.home'))
         return render_template('login.html', error="Credenziali non valide.")
     return render_template('login.html', error=None)
