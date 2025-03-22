@@ -157,14 +157,11 @@
             <nav>
                 <a href="{{ url_for('home.home') }}">Home</a>
                 <a href="{{ url_for('home.search') }}">Search</a>
-                {% if session.token_info %}
-                    <a href="{{url_for('auth.logout')}}">Logout</a>
-                {% else %}
-                    <a href="{{ url_for('auth.login') }}">Login</a>
-                    {% endif %}
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
+                <a href="{{ url_for('auth.login') }}">Collega Spotify</a>
             </nav>
         </header>
-        <h1>Benvenuto, {{ user_info['display_name'] }}!</h1>
+        <h1>Benvenuto, {{ current_user.username }}!</h1>
         {% if user_info['images'] %}
             <img src="{{ user_info['images'][0]['url'] }}" width="200" alt="Immagine profilo">
         {% endif %}
