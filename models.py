@@ -8,8 +8,12 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
 
-#commit di amine
+#Commit di amine relativo alla visualizzazione playlist di un utente
 class Playlist(db.Model):
+    #ID della playlist
     id = db.Column(db.Integer, primary_key=True)
+    #ID dell'user come chiave esterna dalla tabella User
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    #ID della playlist su spotify
+    playlist_id = db.Column(db.String(80), nullable=False)
     user = db.relationship('User', backref="playlist", lazy=True)
