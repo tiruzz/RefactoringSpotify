@@ -68,21 +68,55 @@ def search_spotify(query):
     )
     sp = spotipy.Spotify(auth_manager=client_credentials_manager)
     
-    search_results = sp.search(q=query, type='artist,track', limit=10)
+    # Cerca solo playlist pubbliche -Amine
+    search_results = sp.search(q=query, type='playlist', limit=10)
     results = []
     
-    for artist in search_results.get('artists', {}).get('items', []):
-        results.append({
-            'name': artist['name'],
-            'spotify_url': artist['external_urls']['spotify'],
-            'image_url': artist['images'][0]['url'] if artist['images'] else 'https://via.placeholder.com/100'
-        })
+    #Rielabora i risultati per poi rispedirli in una variabile "results" -Amine
+    for playlist in search_results.get('playlists', {}).get('items', []):
+        if playlist and playlist.get('public') is not None and playlist['public']:  # Controllo sicurezza
+            results.append({
+                'id': playlist['id'],
+                'name': playlist['name'],
+                'spotify_url': playlist['external_urls']['spotify'],
+                'image_url': playlist['images'][0]['url'] if playlist.get('images') else 'https://via.placeholder.com/100'
+            })
     
-    for track in search_results.get('tracks', {}).get('items', []):
-        results.append({
-            'name': track['name'],
-            'spotify_url': track['external_urls']['spotify'],
-            'image_url': track['album']['images'][0]['url'] if track['album']['images'] else 'https://via.placeholder.com/100'
-        })
-    
+    # Ritorna la variabile -Amine
     return results
+
+
+
+#Funzione per estrapolare le playlist dell'utente e inserirle nel database in modo parziale da migliorare e rendere efficiente col sito e la struttura -Amine
+def save_user_playlists():
+    if 'spotify_token' not in session:
+        return "Token non trovato", 403
+
+    sp = spotipy.Spotify(auth=session['spotify_token'])
+
+    # Ottieni l'ID utente Spotify
+    user_spotify_data = sp.current_user()
+    spotify_user_id = user_spotify_data['id']
+
+    # Controlla l'utente
+    user = User.query.filter_by(username=spotify_user_id).first()
+    if not user:
+        user = User(username=spotify_user_id, password="")
+        db.session.add(user)
+        db.session.commit()
+
+    
+    # Ottieni le playlist dell'utente che ha effettuato l'acceso su spotify
+    playlists = sp.current_user_playlists()['items']
+
+    for playlist in playlists:
+        playlist_id = playlist['id']
+        playlist_name = playlist['name']
+
+        # Controlla se la playlist è già nel DB
+        existing_playlist = Playlist.query.filter_by(playlist_id=playlist_id, user_id=user.id).first()
+        if not existing_playlist:
+            new_playlist = Playlist(user_id=user.id, playlist_id=playlist_id, name=playlist_name)
+            db.session.add(new_playlist)
+
+    db.session.commit()

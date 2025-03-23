@@ -134,7 +134,7 @@
                         {% for result in results %}
                             <li>
                                 <img src="{{ result.image_url }}" alt="{{ result.name }}">
-                                <a href="{{ result.spotify_url }}" target="_blank">{{ result.name }}</a>
+                                <a href="{{ url_for('home.playlist_details', playlist_id=result.id) }}">{{ result.name }}</a>
                             </li>
                         {% endfor %}
                     </ul>
