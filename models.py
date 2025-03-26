@@ -17,5 +17,5 @@ class Playlist(db.Model):
     #ID della playlist su spotify
     playlist_id = db.Column(db.String(80), nullable=False)
     #Nome della playlist
-    name = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
     user = db.relationship('User', backref="playlist", lazy=True)

@@ -25,9 +25,9 @@ def search():
     is_logged_in = 'user_id' in session  # Verifica se l'utente ha fatto l'accesso
     return render_template('home-page.html', results=results, is_logged_in=is_logged_in)
 
-@home_bp.route('/add_playlist/<playlist_id>')
-def add_playlist(playlist_id):
-    message, status_code = add_playlist_to_user(playlist_id)
+@home_bp.route('/add_playlist/<playlist_name>/<playlist_id>')
+def add_playlist(playlist_name, playlist_id):
+    message, status_code = add_playlist_to_user(playlist_name, playlist_id)
     flash(message, "success" if status_code == 200 else "error")
     return redirect(url_for('home.home_page'))
 

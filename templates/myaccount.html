@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Tuo Profilo</title>
+    <link rel="stylesheet" href="../static/css/myaccount.css">
+</head>
+<body>
+    <!-- Profilo utente -->
+<div class="profile-container">
+    <h2>Il tuo profilo</h2>
+
+    <p><strong>Username:</strong> {{ user.username }}</p>
+
+    <h3>Le tue playlist</h3>
+    {% if playlists %}
+        <ul>
+            {% for playlist in playlists %}
+                <li>
+                    <a href="{{ url_for('home.playlist_details', playlist_id=playlist.playlist_id) }}">{{ playlist.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Non hai ancora playlist salvate.</p>
+    {% endif %}
+
+    <!-- Bottoni Logout e Home -->
+    <a href="{{ url_for('home.home_page') }}" class="home-btn">Torna alla Home</a>
+    <a href="{{ url_for('account.logout') }}" class="logout-btn">Logout</a>
+</div>
+
+</body>
+</html>

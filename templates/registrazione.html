@@ -1,14 +1,20 @@
-<div class="inizio">
-<h2>Registrazione</h2>
-<form method="POST">
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br>
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br>
-    <button type="submit">Registrati</button>
-    {% if error %}
-    <p class="errore" style="color: red;">{{ error }}</p>
-    {% endif %}
-</form>
-<a href="{{ url_for('account.accesso') }}">Hai già un account? Accedi qui.</a>
-</div>
+<head>
+    <link rel="stylesheet" href="../static/css/registrazione.css">
+</head>
+
+<body>
+    <div class="inizio">
+        <h2>Registrazione</h2>
+        <form method="POST">
+            <label>Username:</label><br>
+            <input type="text" name="username" required><br>
+            <label>Password:</label><br>
+            <input type="password" name="password" required><br>
+            <button type="submit">Registrati</button>
+            {% if error %}
+            <p class="errore" style="color: red;">{{ error }}</p>
+            {% endif %}
+        </form>
+        <a href="{{ url_for('account.accesso') }}">Hai già un account? Accedi qui.</a>
+    </div>
+</body>

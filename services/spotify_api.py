@@ -3,6 +3,7 @@ import spotipy
 from flask import session
 from spotipy.oauth2 import SpotifyClientCredentials
 from services.spotify_oauth import get_spotify_object, sp_oauth, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+from models import Playlist, db
 
 def get_user_info():
     token_info = session.get('token_info', None)
@@ -90,17 +91,9 @@ def search_spotify(query):
 
 
 
-
-
-
-
-
-
-
-
 # Da sistemare
 
-def add_playlist_to_user(playlist_id):
+def add_playlist_to_user(playlist_name, playlist_id):
     "Salva l'ID utente e l'ID playlist nel database."
     
     if 'user_id' not in session:
@@ -109,12 +102,12 @@ def add_playlist_to_user(playlist_id):
     user_id = session['user_id']
 
     # Controlla se la playlist è già salvata per l'utente
-    existing_entry = UserPlaylist.query.filter_by(user_id=user_id, playlist_id=playlist_id).first()
+    existing_entry = Playlist.query.filter_by(user_id=user_id, playlist_id=playlist_id, name=playlist_name).first()
     if existing_entry:
         return "Playlist già aggiunta", 409  # HTTP 409 Conflict
 
     # Salva la playlist nel database
-    new_entry = UserPlaylist(user_id=user_id, playlist_id=playlist_id)
+    new_entry = Playlist(user_id=user_id, playlist_id=playlist_id, name=playlist_name)
     db.session.add(new_entry)
     db.session.commit()
 

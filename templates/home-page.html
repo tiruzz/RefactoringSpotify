@@ -149,12 +149,32 @@
     }
     .success { background-color: #4CAF50; color: white; }
     .error { background-color: #f44336; color: white; }
+
+.container {
+    display: flex;
+    justify-content: space-between; /* Posiziona gli elementi agli estremi */
+    align-items: center;  /* Allinea verticalmente al centro */
+    padding-right: 30px;  /* Aggiunge uno spazio tra il contenuto e il bordo destro */
+}
+
+h1 {
+    flex-grow: 1; /* Fa in modo che l'h1 occupi tutto lo spazio disponibile a sinistra */
+    text-align: center; /* Centra il testo all'interno del suo spazio */
+}
+
+p {
+    margin-left: auto; /* Spinge il p a destra */
+    margin-right: 10px; /* Distanza tra il p e il bordo destro */
+}
     </style>
     <body>
         <br><br>
-        <header class="header">
+        <div class="container">
             <h1>Benvenuto su Spotify</h1>
-        </header>
+            {% if is_logged_in %}
+            <a href="{{ url_for('account.my_account') }}" class="login-btn">IL MIO ACCOUNT</a>
+            {% endif %}
+        </div>
         
         <div class="main-content">
             <p>VERSIONE GRATIS</p>
@@ -191,7 +211,9 @@
                             <li>
                                 <img src="{{ result.image_url }}" alt="{{ result.name }}">
                                 <a href="{{ url_for('home.playlist_details', playlist_id=result.id) }}">{{ result.name }}</a>
-                                <a href="{{ url_for('home.add_playlist', playlist_id=result.id) }}" class="add-playlist">➕</a>
+                                {% if is_logged_in %}
+                                <a href="{{ url_for('home.add_playlist', playlist_name=result.name, playlist_id=result.id) }}" class="add-playlist">➕</a>
+                                {% endif %}
                             </li>
                         {% endfor %}
                     </ul>

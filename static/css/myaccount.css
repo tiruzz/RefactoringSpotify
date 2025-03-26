@@ -1,0 +1,166 @@
+/* Reset di alcuni stili di base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo della pagina */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212; /* Fondo scuro per l'intero sito */
+    color: #f1f1f1; /* Testo chiaro per contrastare il fondo scuro */
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: #1DB954; /* Verde Spotify */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #333;
+}
+
+/* Titolo dell'header */
+header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+/* Menu di navigazione e bottoni (login, logout) */
+header a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    margin: 0 10px;
+    padding: 8px 15px;
+    border-radius: 30px;
+    transition: background-color 0.3s;
+}
+
+header a:hover {
+    background-color: #121212;
+}
+
+/* Sezione del profilo */
+.profile-container {
+    background-color: #181818; /* Sfondo leggermente più chiaro */
+    padding: 25px;
+    margin: 30px auto;
+    max-width: 900px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titolo del profilo */
+.profile-container h2 {
+    font-size: 2rem;
+    color: #1DB954;
+    margin-bottom: 20px;
+}
+
+/* Lista delle playlist */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    background-color: #333; /* Playlist con fondo scuro */
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s;
+    flex-direction: column; /* Cambiato per allineare gli elementi verticalmente */
+    text-align: center; /* Allinea il testo al centro */
+}
+
+ul li:hover {
+    background-color: #444; /* Più chiaro al passaggio del mouse */
+}
+
+ul li img {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    margin-bottom: 10px; /* Distanza tra immagine e testo */
+}
+
+ul li a {
+    color: #f1f1f1;
+    font-size: 1.1rem;
+    text-decoration: none;
+    flex-grow: 1;
+    margin-bottom: 10px; /* Distanza tra nome playlist e icona */
+}
+
+ul li a:hover {
+    text-decoration: underline;
+}
+
+ul li .add-playlist {
+    font-size: 1.5rem;
+    color: #1DB954;
+    cursor: pointer;
+}
+
+ul li .add-playlist:hover {
+    color: #1ed760;
+}
+
+/* Messaggio quando non ci sono playlist */
+.profile-container p {
+    font-size: 1.2rem;
+    color: #bbb;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Logout button e Home button nello stesso livello */
+.logout-btn, .home-btn {
+    background-color: #333;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    display: inline-block;
+    width: 48%; /* Entrambi i bottoni occuperanno metà della larghezza */
+    text-align: center;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.logout-btn:hover, .home-btn:hover {
+    background-color: #444;
+}
+
+h2 {
+    text-align: center;
+}
+
+/* Layout responsivo */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    ul li {
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    .logout-btn, .home-btn {
+        width: 100%; /* Sui dispositivi piccoli i bottoni occuperanno tutta la larghezza */
+        padding: 10px;
+    }
+}
