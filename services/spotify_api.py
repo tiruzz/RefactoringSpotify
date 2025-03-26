@@ -87,36 +87,35 @@ def search_spotify(query):
 
 
 
-#Funzione per estrapolare le playlist dell'utente e inserirle nel database in modo parziale da migliorare e rendere efficiente col sito e la struttura -Amine
-def save_user_playlists():
-    if 'spotify_token' not in session:
-        return "Token non trovato", 403
 
-    sp = spotipy.Spotify(auth=session['spotify_token'])
 
-    # Ottieni l'ID utente Spotify
-    user_spotify_data = sp.current_user()
-    spotify_user_id = user_spotify_data['id']
 
-    # Controlla l'utente
-    user = User.query.filter_by(username=spotify_user_id).first()
-    if not user:
-        user = User(username=spotify_user_id, password="")
-        db.session.add(user)
-        db.session.commit()
 
+
+
+
+
+
+
+
+# Da sistemare
+
+def add_playlist_to_user(playlist_id):
+    "Salva l'ID utente e l'ID playlist nel database."
     
-    # Ottieni le playlist dell'utente che ha effettuato l'acceso su spotify
-    playlists = sp.current_user_playlists()['items']
+    if 'user_id' not in session:
+        return "Utente non autenticato", 403
 
-    for playlist in playlists:
-        playlist_id = playlist['id']
-        playlist_name = playlist['name']
+    user_id = session['user_id']
 
-        # Controlla se la playlist è già nel DB
-        existing_playlist = Playlist.query.filter_by(playlist_id=playlist_id, user_id=user.id).first()
-        if not existing_playlist:
-            new_playlist = Playlist(user_id=user.id, playlist_id=playlist_id, name=playlist_name)
-            db.session.add(new_playlist)
+    # Controlla se la playlist è già salvata per l'utente
+    existing_entry = UserPlaylist.query.filter_by(user_id=user_id, playlist_id=playlist_id).first()
+    if existing_entry:
+        return "Playlist già aggiunta", 409  # HTTP 409 Conflict
 
+    # Salva la playlist nel database
+    new_entry = UserPlaylist(user_id=user_id, playlist_id=playlist_id)
+    db.session.add(new_entry)
     db.session.commit()
+
+    return "Playlist aggiunta con successo", 200

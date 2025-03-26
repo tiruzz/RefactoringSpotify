@@ -1,5 +1,5 @@
-from flask import Blueprint, redirect, request, url_for, session, render_template
-from services.spotify_api import get_user_info, get_playlist_details, search_spotify, get_artist_details, get_artist_top_tracks
+from flask import Blueprint, redirect, request, url_for, session, render_template, flash
+from services.spotify_api import get_user_info, get_playlist_details, search_spotify, get_artist_details, get_artist_top_tracks, add_playlist_to_user
 
 home_bp = Blueprint('home', __name__)
 
@@ -13,9 +13,24 @@ def home():
 @home_bp.route('/')
 def home_page():
     user_info, playlists_info = get_user_info() or (None, None)
-    if user_info:
-        return render_template('home.html', user_info=user_info, playlists=playlists_info)
-    return render_template('home-page.html')
+    is_logged_in = 'user_id' in session  # Verifica se l'utente ha fatto l'accesso
+    return render_template('home-page.html', user_info=user_info, playlists=playlists_info, is_logged_in=is_logged_in)
+
+@home_bp.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('query')
+    if not query:
+        return redirect(url_for('home.home_page'))
+    results = search_spotify(query)
+    is_logged_in = 'user_id' in session  # Verifica se l'utente ha fatto l'accesso
+    return render_template('home-page.html', results=results, is_logged_in=is_logged_in)
+
+@home_bp.route('/add_playlist/<playlist_id>')
+def add_playlist(playlist_id):
+    message, status_code = add_playlist_to_user(playlist_id)
+    flash(message, "success" if status_code == 200 else "error")
+    return redirect(url_for('home.home_page'))
+
 
 @home_bp.route('/playlist/<playlist_id>')
 def playlist_details(playlist_id):
@@ -23,14 +38,6 @@ def playlist_details(playlist_id):
     if not playlist_name:
         return "Playlist non trovata o accesso negato", 404
     return render_template('base.html', brani=brani_specifici, nome=playlist_name)
-
-@home_bp.route('/search', methods=['GET'])
-def search():
-    query = request.args.get('query')
-    if not query:
-        return redirect(url_for('home.search'))
-    results = search_spotify(query)
-    return render_template('home-page.html', results=results)
 
 @home_bp.route('/artist/<artist_id>')
 def artist_details(artist_id):

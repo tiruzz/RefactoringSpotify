@@ -22,7 +22,7 @@ def callback():
         return redirect(url_for('home.home'))
     return "Errore nella richiesta del codice di autorizzazione."
 
-@auth_bp.route('/logout')
+@auth_bp.route('/logout_spotify')
 def logout():
     session.clear() 
     return redirect(url_for('home.home'))
