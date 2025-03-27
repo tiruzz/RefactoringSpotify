@@ -1,5 +1,10 @@
-flask
-flask_login
-flask-sqlalchemy
-spotipy
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Flask-Session
 requests
+spotipy
+bcrypt
+Flask-Bcrypt
+pandas
+plotly
