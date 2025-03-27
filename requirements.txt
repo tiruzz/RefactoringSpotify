@@ -8,3 +8,4 @@ bcrypt
 Flask-Bcrypt
 pandas
 plotly
+matplotlib
