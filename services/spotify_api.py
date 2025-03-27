@@ -86,11 +86,6 @@ def search_spotify(query):
     # Ritorna la variabile -Amine
     return results
 
-
-
-
-
-
 # Da sistemare
 
 def add_playlist_to_user(playlist_name, playlist_id):

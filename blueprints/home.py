@@ -1,6 +1,5 @@
 from flask import Blueprint, redirect, request, url_for, session, render_template, flash
 from services.spotify_api import get_user_info, get_playlist_details, search_spotify, get_artist_details, get_artist_top_tracks, add_playlist_to_user
-from services.gesstione_playlist import analyze_and_visualize
 
 home_bp = Blueprint('home', __name__)
 
@@ -39,9 +38,8 @@ def playlist_details(playlist_id):
     if not playlist_name:
         return "Playlist non trovata o accesso negato", 404
 
-    charts = analyze_and_visualize(playlist_id)
 
-    return render_template('base.html', brani=brani_specifici, nome=playlist_name, charts = charts)
+    return render_template('base.html', brani=brani_specifici, nome=playlist_name)
 
 @home_bp.route('/artist/<artist_id>')
 def artist_details(artist_id):

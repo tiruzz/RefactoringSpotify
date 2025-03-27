@@ -187,20 +187,7 @@
         <p class="no-tracks">Non ci sono brani in questa playlist.</p>
         {% endif %}
 
-        {% if charts %}
-            <div class="charts">
-                <h2>Top 5 Artisti</h2>
-                <div id="fig_artists">{{ charts.fig_artists|safe }}</div>
 
-                <h2>Top 5 Album</h2>
-                <div id="fig_albums">{{ charts.fig_albums|safe }}</div>
-
-                <h2>Distribuzione dei Generi Musicali</h2>
-                <div id="fig_genres">{{ charts.fig_genres|safe }}</div>
-            </div>
-        {% else %}
-            <p>Nessun grafico disponibile per questa playlist.</p>
-        {% endif %}
 
     </div>
 </body>
