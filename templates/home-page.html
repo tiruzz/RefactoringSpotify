@@ -211,6 +211,7 @@ p {
                             <li>
                                 <img src="{{ result.image_url }}" alt="{{ result.name }}">
                                 <a href="{{ url_for('home.playlist_details', playlist_id=result.id) }}">{{ result.name }}</a>
+                                <input type="checkbox" class="playlist-checkbox" value="{{ result.id }}">
                                 {% if is_logged_in %}
                                 <a href="{{ url_for('home.add_playlist', playlist_name=result.name, playlist_id=result.id) }}" class="add-playlist">➕</a>
                                 {% endif %}

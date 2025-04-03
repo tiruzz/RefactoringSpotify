@@ -129,28 +129,11 @@
             font-style: italic;
         }
 
-        /* Stili per dispositivi mobili */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 28px;
-            }
-
-            h1 p {
-                font-size: 24px;
-            }
-
-            .track img {
-                width: 120px; /* Adattamento immagine per schermi piccoli */
-                height: 120px;
-            }
-
-            .track-info p {
-                font-size: 16px;
-            }
-
-            .track-list {
-                grid-template-columns: 1fr; /* Una sola colonna per dispositivi mobili */
-            }
+        .graphs img {
+            width: 80%;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -187,14 +170,14 @@
         <p class="no-tracks">Non ci sono brani in questa playlist.</p>
         {% endif %}
 
-
-        {% if grafico %}
+        <div class="graphs">
             <h2>Analisi della Playlist</h2>
-            <img src="data:image/png;base64,{{ grafico }}" alt="Grafico Playlist">
-        {% endif %}
-
-
-
+            <img src="data:image/png;base64,{{ distribuzione_anni }}" alt="Distribuzione Anni">
+            <img src="data:image/png;base64,{{ distribuzione_durate }}" alt="Distribuzione Durata">
+            <img src="data:image/png;base64,{{ distribuzione_popolarita }}" alt="Distribuzione Popolarità">
+        <!--<img src="data:image/png;base64,{{ distribuzione_generi }}" alt="Distribuzione Generi">-->
+            <img src="data:image/png;base64,{{ evoluzione_popolarita }}" alt="Evoluzione Popolarità">
+        </div>
     </div>
 </body>
 
