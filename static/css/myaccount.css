@@ -121,21 +121,31 @@ ul li .add-playlist:hover {
     margin-top: 20px;
 }
 
-/* Logout button e Home button nello stesso livello */
-.logout-btn, .home-btn {
+/* Allineamento del bottone "Confronta" */
+.button-container {
+    text-align: center; /* Centra il bottone */
+    margin-bottom: 20px; /* Spazio tra il bottone "Confronta" e i bottoni sotto */
+}
+
+/* Allineamento dei bottoni "Torna alla Home" e "Logout" fianco a fianco */
+.button-container a {
+    display: inline-block;
+    width: 48%; /* Entrambi i bottoni occuperanno metà della larghezza */
+    text-align: center;
+    margin: 5px 1%; /* Aggiunge un po' di spazio tra i bottoni */
+}
+
+.home-btn, .logout-btn {
     background-color: #333;
     padding: 12px 20px;
     color: white;
     text-decoration: none;
     border-radius: 25px;
     display: inline-block;
-    width: 48%; /* Entrambi i bottoni occuperanno metà della larghezza */
-    text-align: center;
     transition: background-color 0.3s;
-    margin-top: 20px;
 }
 
-.logout-btn:hover, .home-btn:hover {
+.home-btn:hover, .logout-btn:hover {
     background-color: #444;
 }
 
@@ -163,4 +173,42 @@ h2 {
         width: 100%; /* Sui dispositivi piccoli i bottoni occuperanno tutta la larghezza */
         padding: 10px;
     }
+}
+
+
+/* Casella di selezione (checkbox) */
+.playlist-checkbox {
+    margin-left: 10px;
+    width: 24px; /* Più grande */
+    height: 24px;
+    accent-color: #1DB954; /* Colore verde Spotify */
+    cursor: pointer;
+    display: none; /* Inizialmente nascosta */
+}
+
+/* Bottone "Confronta" */
+.compare-btn {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 25px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.compare-btn:hover {
+    background-color: #45a049;
+}
+
+/* Stile dell'alert */
+#alert-msg {
+    color: red;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 10px;
 }

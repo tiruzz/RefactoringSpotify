@@ -5,31 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il Tuo Profilo</title>
     <link rel="stylesheet" href="../static/css/myaccount.css">
+    <script>
+        // Funzione per mostrare/nascondere le caselle di selezione e il messaggio di alert
+        function toggleCompareOptions() {
+            var checkboxes = document.querySelectorAll('.playlist-checkbox');
+            var compareBtn = document.getElementById('compare-btn');
+            var alertMsg = document.getElementById('alert-msg');
+            
+            // Mostra/nascondi le caselle di selezione
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].style.display = checkboxes[i].style.display === 'inline' ? 'none' : 'inline';
+            }
+            
+            // Cambia il testo del bottone
+            if (compareBtn.innerText === 'Confronta') {
+                compareBtn.innerText = 'Annulla';
+                alertMsg.style.display = 'none'; // Nascondi l'alert quando si clicca su "Confronta"
+            } else {
+                compareBtn.innerText = 'Confronta';
+                alertMsg.style.display = 'none'; // Nascondi l'alert anche quando si annulla
+            }
+        }
+
+        // Funzione per limitare a massimo 2 selezioni
+        function limitSelections() {
+            var selectedCount = 0;
+            var checkboxes = document.querySelectorAll('.playlist-checkbox:checked');
+            selectedCount = checkboxes.length;
+            
+            if (selectedCount > 2) {
+                document.getElementById("alert-msg").style.display = "block"; // Mostra l'alert
+                checkboxes[checkboxes.length - 1].checked = false; // Deseleziona l'ultima selezione
+            } else {
+                document.getElementById("alert-msg").style.display = "none"; // Nasconde l'alert
+            }
+        }
+    </script>
 </head>
 <body>
     <!-- Profilo utente -->
-<div class="profile-container">
-    <h2>Il tuo profilo</h2>
+    <div class="profile-container">
+        <h2>Il tuo profilo</h2>
 
-    <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Username:</strong> {{ user.username }}</p>
 
-    <h3>Le tue playlist</h3>
-    {% if playlists %}
-        <ul>
-            {% for playlist in playlists %}
-                <li>
-                    <a href="{{ url_for('home.playlist_details', playlist_id=playlist.playlist_id) }}">{{ playlist.name }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Non hai ancora playlist salvate.</p>
-    {% endif %}
+        <h3>Le tue playlist</h3>
+        {% if playlists %}
+            <ul>
+                {% for playlist in playlists %}
+                    <li>
+                        <a href="{{ url_for('home.playlist_details', playlist_id=playlist.playlist_id) }}">{{ playlist.name }}</a>
+                        <!-- Casella di selezione (checkbox) per il confronto -->
+                        <input type="checkbox" class="playlist-checkbox" style="display:none;" onclick="limitSelections()">
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Non hai ancora playlist salvate.</p>
+        {% endif %}
 
-    <!-- Bottoni Logout e Home -->
-    <a href="{{ url_for('home.home_page') }}" class="home-btn">Torna alla Home</a>
-    <a href="{{ url_for('account.logout') }}" class="logout-btn">Logout</a>
-</div>
+        <!-- Bottone "Confronta" -->
+        <div class="button-container">
+            <button id="compare-btn" class="compare-btn" onclick="toggleCompareOptions()">Confronta</button>
+        </div>
 
+        <!-- Messaggio di avviso per più di 2 selezioni -->
+        <div id="alert-msg" style="display:none; color: red; margin-top: 10px;">
+            <strong>Attenzione:</strong> Puoi selezionare al massimo due playlist.
+        </div>
+
+        <!-- Bottoni "Torna alla Home" e "Logout" uno accanto all'altro -->
+        <div class="button-container">
+            <a href="{{ url_for('home.home_page') }}" class="home-btn">Torna alla Home</a>
+            <a href="{{ url_for('account.logout') }}" class="logout-btn">Logout</a>
+        </div>
+    </div>
 </body>
 </html>

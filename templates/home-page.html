@@ -180,7 +180,7 @@ p {
             <p>VERSIONE GRATIS</p>
             
             {% if is_logged_in %}
-                <a href="{{ url_for('home.home_page') }}" class="connect-spotify">Collega Spotify</a>
+                <a href="{{ url_for('home.home') }}" class="connect-spotify">Collega Spotify</a>
                 <a href="{{ url_for('account.logout') }}" class="logout-btn">Logout</a>
             {% else %}
                 <a href="{{ url_for('account.accesso') }}" class="login-btn">Login</a>
