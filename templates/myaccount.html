@@ -6,38 +6,64 @@
     <title>Il Tuo Profilo</title>
     <link rel="stylesheet" href="../static/css/myaccount.css">
     <script>
-        // Funzione per mostrare/nascondere le caselle di selezione e il messaggio di alert
+        var isComparing = false;
+
         function toggleCompareOptions() {
             var checkboxes = document.querySelectorAll('.playlist-checkbox');
             var compareBtn = document.getElementById('compare-btn');
             var alertMsg = document.getElementById('alert-msg');
-            
-            // Mostra/nascondi le caselle di selezione
+
             for (var i = 0; i < checkboxes.length; i++) {
                 checkboxes[i].style.display = checkboxes[i].style.display === 'inline' ? 'none' : 'inline';
+                checkboxes[i].checked = false;
             }
-            
-            // Cambia il testo del bottone
-            if (compareBtn.innerText === 'Confronta') {
+
+            alertMsg.style.display = 'none';
+
+            if (!isComparing) {
                 compareBtn.innerText = 'Annulla';
-                alertMsg.style.display = 'none'; // Nascondi l'alert quando si clicca su "Confronta"
+                isComparing = true;
             } else {
                 compareBtn.innerText = 'Confronta';
-                alertMsg.style.display = 'none'; // Nascondi l'alert anche quando si annulla
+                isComparing = false;
             }
         }
 
-        // Funzione per limitare a massimo 2 selezioni
         function limitSelections() {
-            var selectedCount = 0;
             var checkboxes = document.querySelectorAll('.playlist-checkbox:checked');
-            selectedCount = checkboxes.length;
-            
-            if (selectedCount > 2) {
-                document.getElementById("alert-msg").style.display = "block"; // Mostra l'alert
-                checkboxes[checkboxes.length - 1].checked = false; // Deseleziona l'ultima selezione
+            var compareBtn = document.getElementById('compare-btn');
+
+            if (checkboxes.length > 2) {
+                document.getElementById("alert-msg").style.display = "block";
+                checkboxes[checkboxes.length - 1].checked = false;
             } else {
-                document.getElementById("alert-msg").style.display = "none"; // Nasconde l'alert
+                document.getElementById("alert-msg").style.display = "none";
+
+                if (checkboxes.length === 2) {
+                    compareBtn.innerText = 'Conferma';
+                } else if (isComparing) {
+                    compareBtn.innerText = 'Annulla';
+                }
+            }
+        }
+
+        function handleCompareClick() {
+            var compareBtn = document.getElementById('compare-btn');
+
+            if (compareBtn.innerText === 'Conferma') {
+                var selected = document.querySelectorAll('.playlist-checkbox:checked');
+                var ids = [];
+
+                for (var i = 0; i < selected.length; i++) {
+                    ids.push(selected[i].getAttribute('data-id'));
+                }
+
+                if (ids.length === 2) {
+                    // Redireziona alla route con gli ID
+                    window.location.href = '/confronta?ids=' + ids.join(',');
+                }
+            } else {
+                toggleCompareOptions(); // normale comportamento
             }
         }
     </script>
@@ -55,8 +81,8 @@
                 {% for playlist in playlists %}
                     <li>
                         <a href="{{ url_for('home.playlist_details', playlist_id=playlist.playlist_id) }}">{{ playlist.name }}</a>
-                        <!-- Casella di selezione (checkbox) per il confronto -->
-                        <input type="checkbox" class="playlist-checkbox" style="display:none;" onclick="limitSelections()">
+                        <!-- Checkbox con data-id -->
+                        <input type="checkbox" class="playlist-checkbox" data-id="{{ playlist.playlist_id }}" style="display:none;" onclick="limitSelections()">
                     </li>
                 {% endfor %}
             </ul>
@@ -66,15 +92,15 @@
 
         <!-- Bottone "Confronta" -->
         <div class="button-container">
-            <button id="compare-btn" class="compare-btn" onclick="toggleCompareOptions()">Confronta</button>
+            <button id="compare-btn" class="compare-btn" onclick="handleCompareClick()">Confronta</button>
         </div>
 
-        <!-- Messaggio di avviso per più di 2 selezioni -->
+        <!-- Messaggio di avviso -->
         <div id="alert-msg" style="display:none; color: red; margin-top: 10px;">
             <strong>Attenzione:</strong> Puoi selezionare al massimo due playlist.
         </div>
 
-        <!-- Bottoni "Torna alla Home" e "Logout" uno accanto all'altro -->
+        <!-- Bottoni "Torna alla Home" e "Logout" -->
         <div class="button-container">
             <a href="{{ url_for('home.home_page') }}" class="home-btn">Torna alla Home</a>
             <a href="{{ url_for('account.logout') }}" class="logout-btn">Logout</a>

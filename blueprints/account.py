@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, request, url_for, session, render_template
 from models import User, Playlist, db
 from flask_login import login_user, logout_user
+from services.spotify_api import get_playlist_details
 
 account_bp = Blueprint('account', __name__)
 
@@ -53,3 +54,23 @@ def my_account():
     
     return render_template('myaccount.html', user=user, playlists=playlists)
     
+
+@account_bp.route('/confronta')
+def confronta():
+    ids = request.args.get('ids')
+    
+    if not ids:
+        return redirect(url_for('account.my_account'))  # fallback
+
+    id_list = ids.split(',')
+
+    id1, id2 = id_list[0], id_list[1]
+
+    if len(id_list) != 2:
+        return redirect(url_for('account.my_account'))  # servono esattamente 2
+
+    playlists = Playlist.query.filter(Playlist.playlist_id.in_(id_list)).all()
+    playlist_name1, brani_specifici1 = get_playlist_details(id1)
+    playlist_name2, brani_specifici2 = get_playlist_details(id2)
+
+    return render_template('confronta.html', playlist1=playlists[0], playlist2=playlists[1], brani1=brani_specifici1, nome1=playlist_name1, brani2=brani_specifici2, nome2=playlist_name2)
