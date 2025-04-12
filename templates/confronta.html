@@ -2,89 +2,22 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Confronta Playlist</title>
-    <style>
-        .confronto-container {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 2rem;
-        }
-        .playlist-box {
-            width: 45%;
-            border: 1px solid #ccc;
-            padding: 1rem;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-    </style>
+    <title>Confronto Playlist</title>
 </head>
 <body>
-    <h1>Confronto tra Playlist</h1>
+    <h1>Confronto tra "{{ nome1 }}" e "{{ nome2 }}"</h1>
+    <div class="stat">🎵 Brani in comune: <strong>{{ brani_comuni }}</strong></div>
+    <div class="stat">👩‍🎤 Artisti in comune: <strong>{{ artisti_comuni }}</strong></div>
+    <div class="stat">📈 Popolarità media: <strong>{{ pop_avg_1 }}</strong> ({{ nome1 }}) vs <strong>{{ pop_avg_2 }}</strong> ({{ nome2 }})</div>
 
-    <div class="confronto-container">
-        <div class="playlist-box">
-            <h2>{{ nome1 }}</h2>
-            <ul>
-                {% for song in playlist1.songs %}
-                    <li>{{ song.title }} - {{ song.artist }}</li>
-                {% else %}
-                {% if brani1 %}
-                <div class="track-list">
-                    {% for brano in brani1 %}
-                    <div class="track">
-                        <img src="{{ brano['track']['album']['images'][0]['url'] }}" alt="Copertina album">
-                        <div class="track-info">
-                            <p class="track-name">{{ brano['track']['name'] }}</p>
-                            <p><strong>Album:</strong> {{ brano['track']['album']['name'] }}</p>
-                            <p><strong>Artista:</strong> 
-                                {% for artist in brano['track']['artists'] %}
-                                <a href="/artist/{{ artist['id'] }}">{{ artist['name'] }}</a>{% if not loop.last %}, {% endif %}
-                                {% endfor %}
-                            </p>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% else %}
-                <p class="no-tracks">Non ci sono brani in questa playlist.</p>
-                {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
+    <h2>Distribuzione Temporale</h2>
+    <img src="data:image/png;base64,{{ distribuzione_anni }}" alt="Distribuzione anni">
 
-        <div class="playlist-box">
-            <h2>{{ nome2 }}</h2>
-            <ul>
-                {% for song in playlist2.songs %}
-                    <li>{{ song.title }} - {{ song.artist }}</li>
-                {% else %}
-                {% if brani2 %}
-                <div class="track-list">
-                    {% for brano in brani2 %}
-                    <div class="track">
-                        <img src="{{ brano['track']['album']['images'][0]['url'] }}" alt="Copertina album">
-                        <div class="track-info">
-                            <p class="track-name">{{ brano['track']['name'] }}</p>
-                            <p><strong>Album:</strong> {{ brano['track']['album']['name'] }}</p>
-                            <p><strong>Artista:</strong> 
-                                {% for artist in brano['track']['artists'] %}
-                                <a href="/artist/{{ artist['id'] }}">{{ artist['name'] }}</a>{% if not loop.last %}, {% endif %}
-                                {% endfor %}
-                            </p>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% else %}
-                <p class="no-tracks">Non ci sono brani in questa playlist.</p>
-                {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+    <h2>Generi più comuni</h2>
+    <img src="data:image/png;base64,{{ distribuzione_generi }}" alt="Distribuzione generi">
 
-    <div style="text-align: center; margin-top: 2rem;">
-        <a href="{{ url_for('account.my_account') }}">⬅ Torna al tuo profilo</a>
-    </div>
+    <br><br>
+    <a href="{{ url_for('account.my_account') }}">⬅ Torna al tuo profilo</a>
 </body>
 </html>
+

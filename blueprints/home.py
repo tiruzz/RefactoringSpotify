@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, request, url_for, session, render_template, flash
 from services.spotify_api import get_user_info, get_playlist_details, search_spotify, get_artist_details, get_artist_top_tracks, add_playlist_to_user
-from services.analisi import analizza_playlist
+from services.analisi import confronta_due_playlist
 
 home_bp = Blueprint('home', __name__)
 
@@ -60,3 +60,19 @@ def artist_details(artist_id):
         "spotify_url": track.get("external_urls", {}).get("spotify", "#")
     } for track in top_tracks]
     return render_template('artista.html', nome=nome, immagine=immagine, generi=generi, popolarita=popolarita, followers=followers, spotify_url=spotify_url, brani=brani)
+
+@home_bp.route('/confronta')
+def confronta_playlist():
+    ids = request.args.get('ids')
+    if not ids or len(ids.split(',')) != 2:
+        flash("Devi selezionare esattamente due playlist.", "error")
+        return redirect(url_for('account.my_account'))
+
+    id1, id2 = ids.split(',')
+    risultati = confronta_due_playlist(id1, id2)
+
+    if "errore" in risultati:
+        flash(risultati["errore"], "error")
+        return redirect(url_for('account.my_account'))
+
+    return render_template("confronta.html", **risultati)
