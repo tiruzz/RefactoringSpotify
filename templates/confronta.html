@@ -11,10 +11,10 @@
     <div class="stat">📈 Popolarità media: <strong>{{ pop_avg_1 }}</strong> ({{ nome1 }}) vs <strong>{{ pop_avg_2 }}</strong> ({{ nome2 }})</div>
 
     <h2>Distribuzione Temporale</h2>
-    <img src="data:image/png;base64,{{ distribuzione_anni }}" alt="Distribuzione anni">
+    <img src="data:image/png;base64,{{ grafico_anni }}" alt="Distribuzione anni">
 
     <h2>Generi più comuni</h2>
-    <img src="data:image/png;base64,{{ distribuzione_generi }}" alt="Distribuzione generi">
+    <img src="data:image/png;base64,{{ grafico_generi }}" alt="Distribuzione generi">
 
     <br><br>
     <a href="{{ url_for('account.my_account') }}">⬅ Torna al tuo profilo</a>

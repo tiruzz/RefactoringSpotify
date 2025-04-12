@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, request, url_for, session, render_template, flash
 from services.spotify_api import get_user_info, get_playlist_details, search_spotify, get_artist_details, get_artist_top_tracks, add_playlist_to_user
-from services.analisi import confronta_due_playlist
+from services.analisi import confronta_due_playlist, analizza_playlist
 
 home_bp = Blueprint('home', __name__)
 
