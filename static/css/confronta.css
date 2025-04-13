@@ -1,0 +1,110 @@
+/* Reset delle impostazioni predefinite del browser */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212; /* Nero tipico di Spotify */
+    color: #fff;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #1DB954; /* Verde Spotify */
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.stat {
+    background-color: #1D1D1D; /* Grigio scuro per la sezione delle statistiche */
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #333;
+}
+
+.stat strong {
+    font-size: 1.5rem;
+    color: #1DB954; /* Verde Spotify per i numeri */
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-top: 40px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.grafici-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.grafico {
+    width: 45%; /* Ogni grafico occupa metà dello schermo */
+    background-color: #1D1D1D;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    display: inline-block;
+    text-align: center;
+    background-color: #1DB954; /* Verde Spotify */
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #1ED760; /* Verde più chiaro per l'effetto hover */
+}
+
+/* Responsività */
+@media (max-width: 768px) {
+    .grafici-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .grafico {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .stat {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+}

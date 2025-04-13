@@ -107,3 +107,21 @@ def add_playlist_to_user(playlist_name, playlist_id):
     db.session.commit()
 
     return "Playlist aggiunta con successo", 200
+
+def get_artist_genres(artist_id):
+    token_info = session.get('token_info', None)
+    try:
+        if token_info:
+            sp = get_spotify_object(token_info)
+        else:
+            client_credentials_manager = SpotifyClientCredentials(
+                client_id=SPOTIFY_CLIENT_ID,
+                client_secret=SPOTIFY_CLIENT_SECRET
+            )
+            sp = spotipy.Spotify(auth_manager=client_credentials_manager)
+        
+        artist = sp.artist(artist_id)
+        return artist.get('genres', [])
+    except Exception as e:
+        print(f"Errore durante il recupero dei generi per {artist_id}: {e}")
+        return []

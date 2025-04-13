@@ -1,9 +1,10 @@
-from services.spotify_api import get_playlist_details
+from services.spotify_api import get_playlist_details, get_artist_genres
 import matplotlib.pyplot as plt
 from collections import Counter
 import io
 import base64
 import numpy as np
+import requests
 
 def salva_grafico():
     buffer = io.BytesIO()
@@ -118,12 +119,12 @@ def confronta_due_playlist(playlist1_id, playlist2_id):
     for b in brani1:
         anni1.append(b['track']['album']['release_date'][:4])
         for a in b['track']['artists']:
-            generi1.update(a.get('genres', []))
+            generi1.update(get_artist_genres(a['id']))
 
     for b in brani2:
         anni2.append(b['track']['album']['release_date'][:4])
         for a in b['track']['artists']:
-            generi2.update(a.get('genres', []))
+            generi2.update(get_artist_genres(a['id']))
 
     # Grafico comparativo popolarità
     plt.figure()
