@@ -121,9 +121,32 @@
             font-style: italic;
         }
 
+        
+
+        .graphs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .graphs h2 {
+            width: 100%;
+            text-align: center;
+            color: #1DB954;
+            margin-bottom: 20px;
+        }
+        
         .graphs img {
-            width: 80%;
-            margin: 20px 0;
+            width: 48%;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Layout per schermi piccoli: uno sotto l’altro */
+        @media (max-width: 768px) {
+            .graphs img {
+                width: 100%;
+            }
         }
