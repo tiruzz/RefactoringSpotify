@@ -38,9 +38,25 @@ def playlist_details(playlist_id):
     playlist_name, brani_specifici = get_playlist_details(playlist_id)
     if not playlist_name:
         return "Playlist non trovata o accesso negato", 404
-    
+
     grafici = analizza_playlist(playlist_id)
-    return render_template('base.html', brani=brani_specifici, nome=playlist_name, **grafici)
+
+    # Recupera l'URL della playlist in modo sicuro
+    user_info, playlists_info = get_user_info() or (None, [])
+    spotify_url = "#"
+    if playlists_info:
+        for pl in playlists_info:
+            if str(pl.get("id")) == str(playlist_id):
+                spotify_url = pl.get("external_urls", {}).get("spotify", "#")
+                break
+
+    return render_template(
+        'base.html',
+        brani=brani_specifici,
+        nome=playlist_name,
+        spotify_url=spotify_url,
+        **grafici
+    )
 
 @home_bp.route('/artist/<artist_id>')
 def artist_details(artist_id):

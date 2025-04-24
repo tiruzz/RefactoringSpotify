@@ -17,6 +17,11 @@
                 <a href="{{ url_for('auth.login') }}">Login</a>
             </nav>
         </header>
+        <a>{{spotify_url}} ciao</a>
+        <div class="share-section">
+            <button onclick="sharePlaylist()">🎧 Condividi su Spotify</button>
+        </div>
+        
         <h1>Brani della Playlist <p>{{ nome }}</p></h1>
 
         {% if brani %}
@@ -49,6 +54,26 @@
             <img src="data:image/png;base64,{{ evoluzione_popolarita }}" alt="Evoluzione Popolarità">
         </div>
     </div>
+
+    <script>
+        function sharePlaylist() {
+            const spotifyUrl = "{{ spotify_url }}";
+            if (spotifyUrl === "#" || !spotifyUrl) {
+                alert("Link Spotify non disponibile.");
+                return;
+            }
+    
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(spotifyUrl).then(() => {
+                    alert("Link copiato negli appunti! 🎵");
+                }).catch(() => {
+                    window.open(spotifyUrl, '_blank');
+                });
+            } else {
+                window.open(spotifyUrl, '_blank');
+            }
+        }
+    </script>
 </body>
 
 </html>

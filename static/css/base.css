@@ -150,3 +150,19 @@
                 width: 100%;
             }
         }
+
+        .share-section button {
+            background-color: #1DB954;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px 0;
+            transition: background-color 0.3s ease;
+        }
+        
+        .share-section button:hover {
+            background-color: #1ed760;
+        }
