@@ -50,14 +50,23 @@ def get_playlist_details(playlist_id):
             )
             sp = spotipy.Spotify(auth_manager=client_credentials_manager)
         
+        # Recupera i dati della playlist
         playlist_data = sp.playlist(playlist_id)
+        
+        # Estrai il nome della playlist
         playlist_name = playlist_data.get('name', 'Nome non disponibile')
+
+        # Recupera l'URL della playlist
+        spotify_url = playlist_data.get('external_urls', {}).get('spotify', '#')
+
+        # Recupera gli items (brani) della playlist
         brani = sp.playlist_items(playlist_id)
         brani_specifici = brani.get('items', []) if brani and isinstance(brani, dict) else []
-        return playlist_name, brani_specifici
+        
+        return playlist_name, brani_specifici, spotify_url  # Restituisce anche l'URL di Spotify
     except spotipy.exceptions.SpotifyException as e:
         print(f"Errore Spotify: {e}")
-        return None, None
+        return None, None, None
 
 def search_spotify(query):
     if not query:

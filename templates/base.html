@@ -17,7 +17,6 @@
                 <a href="{{ url_for('auth.login') }}">Login</a>
             </nav>
         </header>
-        <a>{{spotify_url}} ciao</a>
         <div class="share-section">
             <button onclick="sharePlaylist()">🎧 Condividi su Spotify</button>
         </div>
@@ -57,7 +56,7 @@
 
     <script>
         function sharePlaylist() {
-            const spotifyUrl = "{{ spotify_url }}";
+            const spotifyUrl = "{{ spotify_url }}";  // Usa il link Spotify passati dal server
             if (spotifyUrl === "#" || !spotifyUrl) {
                 alert("Link Spotify non disponibile.");
                 return;

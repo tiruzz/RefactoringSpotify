@@ -15,7 +15,7 @@ def salva_grafico():
     return img_base64
 
 def analizza_playlist(playlist_id):
-    playlist_name, brani = get_playlist_details(playlist_id)
+    playlist_name, brani, spotify_url = get_playlist_details(playlist_id)
     if not brani:
         return {}
     
