@@ -63,14 +63,14 @@
                 <p style="text-align: center; color: white;">Nessun risultato trovato.</p>
             {% endif %}
 
-            {% if recommended_tracks %}
-                <div class="recommended-tracks">
-                    <h2>Consigliati per te (Trap)</h2>
+            {% if raccomandazioni %}
+                <div class="raccomandazioni">
+                    <h2>Raccomandazioni per te</h2>
                     <ul>
-                        {% for track in recommended_tracks %}
+                        {% for raccomandazione in raccomandazioni %}
                             <li>
-                                <img src="{{ track.image_url }}" alt="cover" style="width:50px;height:50px;">
-                                <a href="{{ track.spotify_url }}" target="_blank">{{ track.name }}</a> - {{ track.artist }}
+                                <img src="{{ raccomandazione.image_url }}" alt="{{ raccomandazione.name }}">
+                                <a href="{{ url_for('home.playlist_details', playlist_id=raccomandazione.id) }}">{{ raccomandazione.name }}</a>
                             </li>
                         {% endfor %}
                     </ul>

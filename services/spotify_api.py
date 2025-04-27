@@ -4,6 +4,8 @@ from flask import session
 from spotipy.oauth2 import SpotifyClientCredentials
 from services.spotify_oauth import get_spotify_object, sp_oauth, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 from models import Playlist, db
+import random
+from collections import Counter
 
 def get_user_info():
     token_info = session.get('token_info', None)
@@ -135,23 +137,48 @@ def get_artist_genres(artist_id):
         print(f"Errore durante il recupero dei generi per {artist_id}: {e}")
         return []
 
-def get_recommended_tracks_by_genre(genre="trap", limit=5):
-    """Ritorna alcuni brani consigliati di un certo genere."""
-    client_credentials_manager = SpotifyClientCredentials(
-        client_id=SPOTIFY_CLIENT_ID,
-        client_secret=SPOTIFY_CLIENT_SECRET
-    )
-    sp = spotipy.Spotify(auth_manager=client_credentials_manager)
-    
-    # Cerca artisti di quel genere
-    result = sp.search(q=f"genre:{genre}", type="track", limit=limit)
-    
-    tracks = []
-    for item in result.get('tracks', {}).get('items', []):
-        tracks.append({
-            "name": item['name'],
-            "artist": item['artists'][0]['name'],
-            "spotify_url": item['external_urls']['spotify'],
-            "image_url": item['album']['images'][0]['url'] if item['album']['images'] else 'https://via.placeholder.com/100'
-        })
-    return tracks
+def genera_raccomandazioni_personalizzate(user_id):
+    # Importa qui dentro Playlist se necessario
+    from models import Playlist
+
+    playlists = Playlist.query.filter_by(user_id=user_id).all()
+    if not playlists:
+        return []
+
+    generi_raccolti = []
+
+    for playlist in playlists:
+        playlist_name, brani_specifici, spotify_url = get_playlist_details(playlist.playlist_id)
+        if not brani_specifici:
+            continue
+
+        for item in brani_specifici:
+            track = item.get('track')
+            if not track:
+                continue
+
+            artist_info = track.get('artists')
+            if not artist_info:
+                continue
+
+            artist_id = artist_info[0]['id']
+            if artist_id:
+                artist_genres = get_artist_genres(artist_id)
+                generi_raccolti.extend(artist_genres)
+
+    if not generi_raccolti:
+        return []
+
+    generi_contati = Counter(generi_raccolti)
+    genere_preferito, _ = generi_contati.most_common(1)[0]
+
+    risultati = search_spotify(genere_preferito)
+    random.shuffle(risultati)
+
+    # Qui aggiungo anche l'id da passare al template
+    return [{
+        "id": item["id"],
+        "name": item["name"],
+        "image_url": item["image_url"],
+        "spotify_url": item["spotify_url"]
+    } for item in risultati[:5]]
