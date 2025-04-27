@@ -181,4 +181,4 @@ def genera_raccomandazioni_personalizzate(user_id):
         "name": item["name"],
         "image_url": item["image_url"],
         "spotify_url": item["spotify_url"]
-    } for item in risultati[:5]]
+    } for item in risultati[:10]]
