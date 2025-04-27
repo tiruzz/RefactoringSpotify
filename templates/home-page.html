@@ -71,6 +71,11 @@
                             <li>
                                 <img src="{{ raccomandazione.image_url }}" alt="{{ raccomandazione.name }}">
                                 <a href="{{ url_for('home.playlist_details', playlist_id=raccomandazione.id) }}">{{ raccomandazione.name }}</a>
+                                
+                                {% if is_logged_in %}
+                                    <!-- Aggiungi il pulsante + per aggiungere la playlist ai salvataggi -->
+                                    <a href="{{ url_for('home.add_playlist', playlist_name=raccomandazione.name, playlist_id=raccomandazione.id) }}" class="add-playlist">➕</a>
+                                {% endif %}
                             </li>
                         {% endfor %}
                     </ul>
