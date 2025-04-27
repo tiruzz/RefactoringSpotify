@@ -134,3 +134,24 @@ def get_artist_genres(artist_id):
     except Exception as e:
         print(f"Errore durante il recupero dei generi per {artist_id}: {e}")
         return []
+
+def get_recommended_tracks_by_genre(genre="trap", limit=5):
+    """Ritorna alcuni brani consigliati di un certo genere."""
+    client_credentials_manager = SpotifyClientCredentials(
+        client_id=SPOTIFY_CLIENT_ID,
+        client_secret=SPOTIFY_CLIENT_SECRET
+    )
+    sp = spotipy.Spotify(auth_manager=client_credentials_manager)
+    
+    # Cerca artisti di quel genere
+    result = sp.search(q=f"genre:{genre}", type="track", limit=limit)
+    
+    tracks = []
+    for item in result.get('tracks', {}).get('items', []):
+        tracks.append({
+            "name": item['name'],
+            "artist": item['artists'][0]['name'],
+            "spotify_url": item['external_urls']['spotify'],
+            "image_url": item['album']['images'][0]['url'] if item['album']['images'] else 'https://via.placeholder.com/100'
+        })
+    return tracks

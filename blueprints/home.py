@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, request, url_for, session, render_template, flash
-from services.spotify_api import get_user_info, get_playlist_details, search_spotify, get_artist_details, get_artist_top_tracks, add_playlist_to_user
+from services.spotify_api import get_user_info, get_playlist_details, search_spotify, get_artist_details, get_artist_top_tracks, add_playlist_to_user, get_recommended_tracks_by_genre
 from services.analisi import confronta_due_playlist, analizza_playlist
 
 home_bp = Blueprint('home', __name__)
@@ -15,7 +15,9 @@ def home():
 def home_page():
     user_info, playlists_info = get_user_info() or (None, None)
     is_logged_in = 'user_id' in session  # Verifica se l'utente ha fatto l'accesso
-    return render_template('home-page.html', user_info=user_info, playlists=playlists_info, is_logged_in=is_logged_in)
+    recommended_tracks = get_recommended_tracks_by_genre("trap") if is_logged_in else None
+
+    return render_template('home-page.html', user_info=user_info, playlists=playlists_info, is_logged_in=is_logged_in, recommended_tracks=recommended_tracks)
 
 @home_bp.route('/search', methods=['GET'])
 def search():

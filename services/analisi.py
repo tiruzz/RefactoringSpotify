@@ -90,8 +90,8 @@ def analizza_playlist(playlist_id):
 
 
 def confronta_due_playlist(playlist1_id, playlist2_id):
-    nome1, brani1 = get_playlist_details(playlist1_id)
-    nome2, brani2 = get_playlist_details(playlist2_id)
+    nome1, brani1, link1 = get_playlist_details(playlist1_id)
+    nome2, brani2, link2 = get_playlist_details(playlist2_id)
 
     if not brani1 or not brani2:
         return {"errore": "Una o entrambe le playlist sono vuote."}
