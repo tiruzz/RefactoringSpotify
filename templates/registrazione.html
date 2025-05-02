@@ -6,7 +6,7 @@
     <div class="inizio">
         <h2>Registrazione</h2>
         <form method="POST">
-            <label>Username:</label><br>
+            <label>Nome Utente:</label><br>
             <input type="text" name="username" required><br>
             <label>Password:</label><br>
             <input type="password" name="password" required><br>
@@ -16,5 +16,10 @@
             {% endif %}
         </form>
         <a href="{{ url_for('account.accesso') }}">Hai già un account? Accedi qui.</a>
+    </div>
+
+    <!-- Bottoni "Torna alla Home" -->
+    <div class="button-container">
+        <a href="{{ url_for('home.home_page') }}" class="home-btn">Torna alla Home</a>
     </div>
 </body>

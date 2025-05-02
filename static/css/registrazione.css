@@ -1,80 +1,117 @@
-/* Stile per il contenitore principale della registrazione */
+/* Stile ispirato a Spotify */
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #121212;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Contenitore del modulo */
 .inizio {
-    background-color: #2c2c2c;
-    border-radius: 10px;
-    padding: 40px;
-    width: 400px;
-    margin: 50px auto;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    color: white;
-}
-
-/* Titolo della registrazione */
-.inizio h2 {
+    background-color: #1E1E1E;
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
     text-align: center;
-    font-size: 2rem;
-    color: #1db954; /* Colore verde Spotify */
-    margin-bottom: 20px;
+    width: 350px;
 }
 
-/* Etichette dei campi */
+/* Titolo */
+.inizio h2 {
+    margin-bottom: 25px;
+    color: #FFFFFF;
+    font-size: 24px;
+}
+
+/* Etichette e input */
 .inizio label {
-    font-size: 1rem;
-    margin-bottom: 5px;
     display: block;
+    text-align: left;
+    margin: 15px 0 5px;
+    font-weight: bold;
+    color: #B3B3B3;
 }
 
-/* Stile per i campi di input */
-.inizio input {
+.inizio input[type="text"],
+.inizio input[type="password"] {
     width: 100%;
     padding: 12px;
-    margin-bottom: 20px;
-    border: 2px solid #444;
-    border-radius: 5px;
-    background-color: #333;
-    color: white;
-    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #2A2A2A;
+    color: #FFFFFF;
+    margin-bottom: 15px;
+    box-sizing: border-box;
 }
 
 .inizio input:focus {
     outline: none;
-    border-color: #1db954; /* Colore verde Spotify quando il campo è selezionato */
+    box-shadow: 0 0 0 2px #1DB954;
 }
 
-/* Stile per il bottone di registrazione */
+/* Bottone registrati */
 .inizio button {
-    width: 100%;
-    padding: 12px;
-    background-color: #1db954; /* Colore verde Spotify */
+    background-color: #1DB954;
+    color: #121212;
     border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 1.1rem;
+    padding: 12px 20px;
+    border-radius: 25px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
     transition: background-color 0.3s ease;
 }
 
 .inizio button:hover {
-    background-color: #1ed760; /* Colore verde chiaro quando il bottone viene hoverato */
+    background-color: #1ed760;
 }
 
 /* Messaggio di errore */
 .errore {
-    font-size: 1rem;
-    text-align: center;
+    color: #FF4C4C;
     margin-top: 10px;
+    font-weight: bold;
 }
 
-/* Link per il login */
+/* Link di accesso */
 .inizio a {
     display: block;
-    text-align: center;
-    color: #1db954; /* Colore verde Spotify per il link */
-    text-decoration: none;
     margin-top: 20px;
-    font-size: 1rem;
+    color: #1DB954;
+    text-decoration: none;
+    font-size: 14px;
 }
 
 .inizio a:hover {
     text-decoration: underline;
+}
+
+/* Contenitore bottone home */
+.button-container {
+    margin-top: 25px;
+}
+
+.home-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: transparent;
+    color: #1DB954;
+    text-decoration: none;
+    border: 2px solid #1DB954;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.home-btn:hover {
+    background-color: #1DB954;
+    color: #121212;
 }
