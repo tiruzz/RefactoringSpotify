@@ -1,11 +1,16 @@
+<!DOCTYPE html>
+<html lang="it">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrazione</title>
     <link rel="stylesheet" href="../static/css/registrazione.css">
 </head>
 
 <body>
     <div class="inizio">
         <h2>Registrazione</h2>
-        <form method="POST">
+        <form method="POST" id="registration-form">
             <label>Nome Utente:</label><br>
             <input type="text" name="username" required><br>
             <label>Password:</label><br>
@@ -22,4 +27,40 @@
     <div class="button-container">
         <a href="{{ url_for('home.home_page') }}" class="home-btn">Torna alla Home</a>
     </div>
+
+    <div id="loading-spinner"></div>
+
+    <script>
+        // Funzione per mostrare lo spinner
+        function showLoading() {
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'block';
+            }
+        }
+
+        // Funzione per nascondere lo spinner
+        function hideLoading() {
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // Mostra lo spinner quando il form viene inviato
+        document.getElementById('registration-form').addEventListener('submit', function () {
+            showLoading();
+        });
+
+        // Nascondi lo spinner quando la pagina è completamente caricata
+        window.addEventListener('load', hideLoading);
+
+        // Nascondi lo spinner se la pagina viene ripristinata dalla cache
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                hideLoading();
+            }
+        });
+    </script>
 </body>
+</html>

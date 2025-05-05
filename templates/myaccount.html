@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,15 +60,31 @@
                 }
 
                 if (ids.length === 2) {
+                    // Mostra lo spinner prima di avviare il reindirizzamento
+                    showLoading();
+
                     // Redireziona alla route con gli ID
-                    window.location.href = '/confronta?ids=' + ids.join(',');
+                    setTimeout(function () {
+                        window.location.href = '/confronta?ids=' + ids.join(',');
+                    }, 500); // Ritardo di 500ms per visualizzare lo spinner
                 }
             } else {
                 toggleCompareOptions(); // normale comportamento
             }
         }
     </script>
+
+    <script>
+        // Nascondi lo spinner quando la pagina è completamente caricata
+        window.addEventListener('load', function () {
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
+        });
+    </script>
 </head>
+
 <body>
     <!-- Profilo utente -->
     <div class="profile-container">
@@ -77,17 +94,17 @@
 
         <h3>Le tue playlist</h3>
         {% if playlists %}
-            <ul>
-                {% for playlist in playlists %}
-                    <li>
-                        <a href="{{ url_for('home.playlist_details', playlist_id=playlist.playlist_id) }}">{{ playlist.name }}</a>
-                        <!-- Checkbox con data-id -->
-                        <input type="checkbox" class="playlist-checkbox" data-id="{{ playlist.playlist_id }}" style="display:none;" onclick="limitSelections()">
-                    </li>
-                {% endfor %}
-            </ul>
+        <ul>
+            {% for playlist in playlists %}
+            <li>
+                <a href="{{ url_for('home.playlist_details', playlist_id=playlist.playlist_id) }}">{{ playlist.name }}</a>
+                <!-- Checkbox con data-id -->
+                <input type="checkbox" class="playlist-checkbox" data-id="{{ playlist.playlist_id }}" style="display:none;" onclick="limitSelections()">
+            </li>
+            {% endfor %}
+        </ul>
         {% else %}
-            <p>Non hai ancora playlist salvate.</p>
+        <p>Non hai ancora playlist salvate.</p>
         {% endif %}
 
         <!-- Bottone "Confronta" -->
@@ -106,5 +123,48 @@
             <a href="{{ url_for('account.logout') }}" class="logout-btn">Logout</a>
         </div>
     </div>
+
+    <div id="loading-spinner"></div>
+
+    <script>
+        function showLoading() {
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'block';
+            }
+        }
+
+        function hideSpinner() {
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
+        }
+
+        // Mostra lo spinner su click di link o submit di form
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+                    showLoading();
+                }
+            });
+        });
+
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function () {
+                showLoading();
+            });
+        });
+
+        // Nascondi lo spinner al caricamento o ritorno dalla cache
+        window.addEventListener('load', hideSpinner);
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                hideSpinner();
+            }
+        });
+    </script>
 </body>
+
 </html>

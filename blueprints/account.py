@@ -15,7 +15,7 @@ def register():
         new_user = User(username=username, password=password)
         db.session.add(new_user)
         db.session.commit()
-        return render_template('login.html')
+        return redirect(url_for('account.accesso'))
     return render_template('registrazione.html', error=None)
 
 @account_bp.route('/accesso', methods=['GET', 'POST'])

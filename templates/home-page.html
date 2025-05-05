@@ -1,120 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profilo Utente</title>
-        <link rel="stylesheet" href="../static/css/home-page.css">
-        <script>
-            // Nascondi lo spinner quando la pagina è completamente caricata
-            window.addEventListener('load', function() {
-                const spinner = document.getElementById('loading-spinner');
-                if (spinner) {
-                    spinner.style.display = 'none';
-                }
-            });
-        </script>
-    </head>
-    
-    <body>
-        <br><br>
-        <div class="container">
-            <h1>Benvenuto su Spotify</h1>
-            {% if is_logged_in %}
-            <a href="{{ url_for('account.my_account') }}" class="login-btn">IL MIO ACCOUNT</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilo Utente</title>
+    <link rel="stylesheet" href="../static/css/home-page.css">
+    <script>
+        // Nascondi lo spinner quando la pagina è completamente caricata
+        window.addEventListener('load', function () {
+            const spinner = document.getElementById('loading-spinner');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <br><br>
+    <div class="container">
+        <h1>Benvenuto su Spotify</h1>
+        {% if is_logged_in %}
+        <a href="{{ url_for('account.my_account') }}" class="login-btn">IL MIO ACCOUNT</a>
+        {% endif %}
+    </div>
+
+    <div class="main-content">
+
+        {% if is_logged_in %}
+            <a href="{{ url_for('home.home') }}" class="connect-spotify">Collega Spotify</a>
+            <a href="{{ url_for('account.logout') }}" class="logout-btn">Disconnettiti</a>
+        {% else %}
+            <a href="{{ url_for('account.accesso') }}" class="login-btn">Accedi</a>
+        {% endif %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <p class="{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
             {% endif %}
+        {% endwith %}
+
+        <div class="navbar">
+            {% if request.path == '/search' %}
+                <a href="{{ url_for('home.home_page') }}" class="back-arrow" title="Torna alla Home">←</a>
+            {% endif %}
+            <form action="{{ url_for('home.search') }}" method="GET" style="display: inline;">
+                <input type="text" name="query" placeholder="Cerca artista o brano" required>
+                <button type="submit">Cerca</button>
+            </form>
         </div>
-        
-        <div class="main-content">
-            
-            {% if is_logged_in %}
-                <a href="{{ url_for('home.home') }}" class="connect-spotify">Collega Spotify</a>
-                <a href="{{ url_for('account.logout') }}" class="logout-btn">Disconnettiti</a>
-            {% else %}
-                <a href="{{ url_for('account.accesso') }}" class="login-btn">Accedi</a>
-            {% endif %}
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div class="flash-messages">
-                        {% for category, message in messages %}
-                            <p class="{{ category }}">{{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
-
-            <div class="navbar">
-                <form action="{{ url_for('home.search') }}" method="GET">
-                    <input type="text" name="query" placeholder="Cerca artista o brano" required>
-                    <button type="submit">Cerca</button>
-                </form>
-            </div>
-            
-            {% if results is defined %}
-                {% if results %}
-                    <div class="search-results">
-                        <h2>Le playlist pubbliche corrispondenti:</h2>
-                        <ul>
-                            {% for result in results %}
-                                <li>
-                                    <img src="{{ result.image_url }}" alt="{{ result.name }}">
-                                    <a href="{{ url_for('home.playlist_details', playlist_id=result.id) }}">{{ result.name }}</a>
-                                    <input type="checkbox" class="playlist-checkbox" value="{{ result.id }}">
-                                    {% if is_logged_in %}
-                                    <a href="{{ url_for('home.add_playlist', playlist_name=result.name, playlist_id=result.id) }}" class="add-playlist">➕</a>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% else %}
-                    <p style="text-align: center; color: white;">Nessun risultato trovato.</p>
-                {% endif %}
-            {% endif %}
-
-            {% if raccomandazioni %}
-                <div class="raccomandazioni">
-                    <h2>Raccomandazioni per te</h2>
+        {% if results is defined %}
+            {% if results %}
+                <div class="search-results">
+                    <h2>Le playlist pubbliche corrispondenti:</h2>
                     <ul>
-                        {% for raccomandazione in raccomandazioni %}
+                        {% for result in results %}
                             <li>
-                                <img src="{{ raccomandazione.image_url }}" alt="{{ raccomandazione.name }}">
-                                <a href="{{ url_for('home.playlist_details', playlist_id=raccomandazione.id) }}">{{ raccomandazione.name }}</a>
-                                
+                                <img src="{{ result.image_url }}" alt="{{ result.name }}">
+                                <a href="{{ url_for('home.playlist_details', playlist_id=result.id) }}">{{ result.name }}</a>
+                                <input type="checkbox" class="playlist-checkbox" value="{{ result.id }}">
                                 {% if is_logged_in %}
-                                    <!-- Aggiungi il pulsante + per aggiungere la playlist ai salvataggi -->
-                                    <a href="{{ url_for('home.add_playlist', playlist_name=raccomandazione.name, playlist_id=raccomandazione.id) }}" class="add-playlist">➕</a>
+                                <a href="{{ url_for('home.add_playlist', playlist_name=result.name, playlist_id=result.id) }}" class="add-playlist">➕</a>
                                 {% endif %}
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
+            {% else %}
+                <p style="text-align: center; color: white;">Nessun risultato trovato.</p>
             {% endif %}
-        </div>
-        <div id="loading-spinner"></div>
-    </body>
-    <script>
-        function showLoading() {
-            document.getElementById('loading-spinner').style.display = 'block';
+        {% endif %}
+
+        {% if raccomandazioni %}
+            <div class="raccomandazioni">
+                <h2>Raccomandazioni per te</h2>
+                <ul>
+                    {% for raccomandazione in raccomandazioni %}
+                        <li>
+                            <img src="{{ raccomandazione.image_url }}" alt="{{ raccomandazione.name }}">
+                            <a href="{{ url_for('home.playlist_details', playlist_id=raccomandazione.id) }}">{{ raccomandazione.name }}</a>
+                            {% if is_logged_in %}
+                                <a href="{{ url_for('home.add_playlist', playlist_name=raccomandazione.name, playlist_id=raccomandazione.id) }}" class="add-playlist">➕</a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    <div id="loading-spinner"></div>
+</body>
+
+<script>
+    function showLoading() {
+        const spinner = document.getElementById('loading-spinner');
+        if (spinner) {
+            spinner.style.display = 'block';
         }
-    
-        // Aggiunge lo spinner ai link che ricaricano la pagina
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                // Escludi anchor tag che iniziano con # o javascript:void
-                if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
-                    showLoading();
-                }
-            });
-        });
-    
-        // Aggiunge lo spinner ai form (es. barra di ricerca)
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', function () {
+    }
+
+    function hideSpinner() {
+        const spinner = document.getElementById('loading-spinner');
+        if (spinner) {
+            spinner.style.display = 'none';
+        }
+    }
+
+    // Mostra lo spinner su click di link o submit di form
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
                 showLoading();
-            });
+            }
         });
-    </script>
-    </html>
+    });
+
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function () {
+            showLoading();
+        });
+    });
+
+    // Nascondi lo spinner al caricamento o ritorno dalla cache
+    window.addEventListener('load', hideSpinner);
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            hideSpinner();
+        }
+    });
+</script>
+
+</html>
